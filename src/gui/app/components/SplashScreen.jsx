@@ -21,7 +21,7 @@ export function SplashScreen({onClick}) {
           <li>Drag across several jobs, then drag a handle to move that group together.</li>
         </ul>
         <p><br/>
-          <i>For more details check the <a href={"https://github.com/amaltunga/queue-manager-plus#plus-manual"} target={"_blank"}>Plus manual</a>.</i><br/>
+          <i>For more details check the <a href={"https://github.com/amaltunga/ComfyUI-Queue-Manager-Plus#plus-manual"} target={"_blank"}>Plus manual</a>.</i><br/>
           <i>For full Release Notes view <a href={"https://github.com/QuietNoise/comfyui_queue_manager/blob/main/CHANGELOG.md"} target={"_blank"}>Changelog</a>.</i><br />
           <i>Leave a feedback or report an issue here <a href={"https://github.com/QuietNoise/comfyui_queue_manager/issues"} target={"_blank"}>Issues</a>. </i>
         </p>

@@ -24,13 +24,13 @@ dev = [
 ]
 
 [project.urls]
-Repository = "https://github.com/amaltunga/queue-manager-plus"
+Repository = "https://github.com/amaltunga/ComfyUI-Queue-Manager-Plus"
 #  Used by Comfy Registry https://comfyregistry.org
 
 
 [tool.comfy]
 PublisherId = "edgerunner"
-DisplayName = "QUEUE MANAGER PLUS"
+DisplayName = "ComfyUI Queue Manager Plus"
 Icon = "https://raw.githubusercontent.com/QuietNoise/comfyui_queue_manager/refs/heads/main/queue-icon.svg"
 
 [tool.setuptools.package-data]

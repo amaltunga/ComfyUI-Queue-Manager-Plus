@@ -1,4 +1,4 @@
-# QUEUE MANAGER PLUS
+# ComfyUI Queue Manager Plus
 
 A ComfyUI queue you can reorder, pause, and archive. Jobs can be moved ahead of the order they were queued, edited before they run, and kept until you clear them.
 

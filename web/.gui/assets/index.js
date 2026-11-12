@@ -30358,7 +30358,7 @@ function SplashScreen({ onClick }) {
         /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("i", { children: [
           "For more details check the ",
-          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://github.com/amaltunga/queue-manager-plus#plus-manual", target: "_blank", children: "Plus manual" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://github.com/amaltunga/ComfyUI-Queue-Manager-Plus#plus-manual", target: "_blank", children: "Plus manual" }),
           "."
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
