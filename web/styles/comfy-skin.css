@@ -1,0 +1,178 @@
+/* Sit Queue Manager in the same scale as Comfy's own queue. */
+
+html,
+body {
+  font-family: Inter, "Segoe UI", sans-serif !important;
+  font-size: 12px !important;
+  background: transparent !important;
+  color: var(--fg-color, #ddd) !important;
+}
+
+.queue-table {
+  font-size: 12px;
+}
+
+.queue-table th {
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em;
+  text-transform: none !important;
+  padding: 4px 8px !important;
+  color: var(--descrip-text, #8d8d8d) !important;
+}
+
+.queue-table td {
+  padding: 3px 8px !important;
+}
+
+.workflow-name-label,
+.workflow-name-preview {
+  font-size: 12px !important;
+}
+
+.shiny-button {
+  font-family: inherit !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+  padding: 3px 8px !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  background: var(--comfy-input-bg, #2a2a2a) !important;
+  border: 1px solid var(--border-color, #3f3f3f) !important;
+  color: var(--fg-color, #e8e8e8) !important;
+}
+
+.shiny-button:hover,
+.shiny-button:active {
+  top: 0 !important;
+  color: var(--fg-color, #fff) !important;
+  text-shadow: none !important;
+  background: var(--comfy-menu-bg, #3a3a3a) !important;
+}
+
+.shiny-button svg,
+.footer svg,
+.thumb-mode svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.queue-table .running td.serial:before {
+  top: auto !important;
+  bottom: 0 !important;
+  height: 3px !important;
+  opacity: 1 !important;
+  border: none !important;
+  background: var(--p-primary-color, #6b9bff) !important;
+}
+
+.qm-stage-row td {
+  padding: 2px 8px 8px !important;
+  border-bottom: 1px solid var(--border-color, #333) !important;
+}
+
+.qm-stages {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 420px;
+}
+
+.qm-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 8px;
+  align-items: center;
+  color: var(--descrip-text, #9a9a9a);
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.qm-stage.running {
+  color: var(--fg-color, #eee);
+}
+
+.qm-stage-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qm-stage-pct {
+  font-variant-numeric: tabular-nums;
+  min-width: 3.2em;
+  text-align: right;
+}
+
+.qm-stage-bar {
+  grid-column: 1 / -1;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--comfy-input-bg, #2a2a2a);
+  overflow: hidden;
+}
+
+.qm-stage-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--p-primary-color, #6b9bff);
+}
+
+.qm-stage.running .qm-stage-bar > span {
+  background: var(--p-blue-500, #7eb6ff);
+}
+
+.reorder-handle {
+  width: 28px;
+  height: 28px;
+}
+
+.selection-toggle {
+  min-width: 28px;
+  min-height: 28px;
+}
+
+.qm-select-hint {
+  margin-left: 8px;
+  color: var(--descrip-text, #9a9a9a);
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.qm-workflow-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 6px;
+  border-radius: 2px;
+  vertical-align: middle;
+  flex: 0 0 auto;
+}
+
+td.name {
+  box-shadow: none;
+}
+
+.qm-promotion {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+  vertical-align: middle;
+  background: #8a8a8a;
+}
+
+.qm-promotion.green { background: #3dcc6e; }
+.qm-promotion.orange { background: #f0a202; }
+.qm-promotion.red { background: #e5484d; }
+
+.qm-stage-done {
+  color: var(--descrip-text, #8d8d8d);
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
