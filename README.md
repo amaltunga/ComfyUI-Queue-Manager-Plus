@@ -1,16 +1,55 @@
 # QUEUE MANAGER PLUS
 
-Development branch of [ComfyUI Queue Manager](https://github.com/QuietNoise/comfyui_queue_manager) v0.2.1 by QuietNoise (Edgerunner). The original project is GPL-3. This branch keeps that licence.
+A ComfyUI queue you can reorder, pause, and archive. Jobs can be moved ahead of the order they were queued, edited before they run, and kept until you clear them.
 
-Install it by cloning this repository into `ComfyUI/custom_nodes` and using the `development` branch, then restart ComfyUI. Your queue database stays on your own machine and is not part of this repository.
+It is a development branch of [ComfyUI Queue Manager](https://github.com/QuietNoise/comfyui_queue_manager) v0.2.1 by QuietNoise (Edgerunner), under the same GPL-3 licence.
 
-Added on top of the original queue manager:
+Install it by cloning this repository into `ComfyUI/custom_nodes` and using the `development` branch, then restart ComfyUI.
 
-- Edit the prompt and, where the graph has one, the duration of a queued or archived job.
-- Show stage progress while a job is running.
-- Colour a job when it is moved ahead of the order it was queued.
-- Give jobs that use the same workflow the same workflow colour.
-- Drag across jobs to select them, then drag a handle to move that group.
+## Plus manual
+
+The examples below are dummy jobs. They are not taken from a real queue.
+
+| Queued order | Job | Workflow | Prompt | Duration |
+| --- | --- | --- | --- | --- |
+| 1 | Red bike | Studio still | a red bicycle on a grey studio floor | 4 seconds |
+| 2 | Blue kettle | Studio still | a blue kettle on a wooden table | 6 seconds |
+| 3 | Rain street | Street scene | a quiet street after rain | none |
+| 4 | Window light | Street scene | sunlight through a tall window | 8 seconds |
+| 5 | Garden path | Street scene | a garden path in the morning | 5 seconds |
+
+### Reorder, pause, and archive
+
+Drag the handle on **Window light** and drop it above **Rain street**. The queue then runs Window light before Rain street. Pause stops the queue from starting the next job. Archive moves **Garden path** out of the queue so it can be run later from the Archive tab.
+
+### Edit the prompt and duration
+
+Open **Edit** on **Red bike**. Change the prompt to `a yellow bicycle on a grey studio floor` and the duration from 4 seconds to 5. **Rain street** has no duration control, so Edit shows the prompt only. Sampler settings, the checkpoint, and the negative prompt are left alone.
+
+### Progress while a job runs
+
+While **Red bike** is running, a line under that row shows the total progress and the stage in progress. For example: Total 40%, Sampler 60%. Finished stages are listed by name.
+
+### Promotion colours
+
+A dot on the left shows whether a pending job has moved ahead of the order it was queued. Running and archived jobs are not marked.
+
+| Dot | Meaning | Dummy example |
+| --- | --- | --- |
+| Grey | Still in the queued order, or moved down | **Blue kettle** dropped below **Rain street** |
+| Green | Moved up 1 or 2 places, and it is not at the front | **Window light** moved up one place, above **Rain street** |
+| Orange | Moved up 3 or more places, and it is not at the front | **Garden path** moved up above **Blue kettle** |
+| Red | Moved to the front, and it was not already the next job | **Garden path** moved to the top |
+
+**Red bike** stays grey if it remains first, because it was already the first job queued.
+
+### Workflow colour
+
+Jobs from the same workflow share one colour on the workflow name. **Red bike** and **Blue kettle** are both **Studio still**, so they share a colour. **Rain street**, **Window light**, and **Garden path** are **Street scene**, so they share a different colour. Renaming **Red bike** to `Hero shot` does not change that colour.
+
+### Move several jobs together
+
+Drag across **Blue kettle** and **Rain street** so both are selected. Drag the handle on either selected row and both jobs move together. Dropping that pair above **Red bike** promotes both, and their promotion dots update from the new order.
 
 The original manual follows.
 

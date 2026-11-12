@@ -11,14 +11,17 @@ export function SplashScreen({onClick}) {
         <h1>QUEUE MANAGER PLUS</h1>
         <h4 className={"sub"}>Version: v0.2.1</h4>
         <h4 className={"sub"}>Released: 18<sup>th</sup> October 2026</h4>
-        <h2>What's new?</h2>
-        <h3>Bugfixes</h3>
+        <h2>What it does</h2>
+        <p>Keeps a queue of ComfyUI jobs so you can reorder them, pause the queue, archive jobs for later, and edit a job before it runs.</p>
         <ul className="list-disc pl-5 space-y-1">
-          <li>Fixed empty image or GIF output lists crashing job completion and stopping further prompt execution.</li>
-          <li>Restored Pause/Resume and Clear pending buttons on ComfyUI 0.41 after the toolbar refactor.</li>
+          <li>Edit the prompt, and the duration when the workflow has one, on a queued or archived job.</li>
+          <li>Show how far the current job has got, including the stage that is running.</li>
+          <li>Colour a job when it has been moved ahead of the order it was queued.</li>
+          <li>Give every job from the same workflow the same colour.</li>
+          <li>Drag across several jobs, then drag a handle to move that group together.</li>
         </ul>
         <p><br/>
-          <i>For more details check the updated manual on Github: <a href={"https://github.com/QuietNoise/comfyui_queue_manager?tab=readme-ov-file#manual"} target={"_blank"}>Queue Manager Manual</a>.</i><br/>
+          <i>For more details check the <a href={"https://github.com/amaltunga/queue-manager-plus#plus-manual"} target={"_blank"}>Plus manual</a>.</i><br/>
           <i>For full Release Notes view <a href={"https://github.com/QuietNoise/comfyui_queue_manager/blob/main/CHANGELOG.md"} target={"_blank"}>Changelog</a>.</i><br />
           <i>Leave a feedback or report an issue here <a href={"https://github.com/QuietNoise/comfyui_queue_manager/issues"} target={"_blank"}>Issues</a>. </i>
         </p>

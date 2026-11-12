@@ -30345,17 +30345,20 @@ function SplashScreen({ onClick }) {
         /* @__PURE__ */ jsxRuntimeExports.jsx("sup", { children: "th" }),
         " October 2026"
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: "What's new?" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Bugfixes" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: "What it does" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Keeps a queue of ComfyUI jobs so you can reorder them, pause the queue, archive jobs for later, and edit a job before it runs." }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "list-disc pl-5 space-y-1", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Fixed empty image or GIF output lists crashing job completion and stopping further prompt execution." }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Restored Pause/Resume and Clear pending buttons on ComfyUI 0.41 through its compatibility menu API." })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Edit the prompt, and the duration when the workflow has one, on a queued or archived job." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Show how far the current job has got, including the stage that is running." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Colour a job when it has been moved ahead of the order it was queued." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Give every job from the same workflow the same colour." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Drag across several jobs, then drag a handle to move that group together." })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("i", { children: [
-          "For more details check the updated manual on Github: ",
-          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://github.com/QuietNoise/comfyui_queue_manager?tab=readme-ov-file#manual", target: "_blank", children: "Queue Manager Manual" }),
+          "For more details check the ",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://github.com/amaltunga/queue-manager-plus#plus-manual", target: "_blank", children: "Plus manual" }),
           "."
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
