@@ -15,6 +15,29 @@ import { QueueItemName } from "./QueueItemName";
 import {withWorkflowFilter} from "../internals/workflowFilters.mjs";
 import {queueWorkflow} from "../internals/queueMetadata.mjs";
 
+function formatQueueSeconds(rawSeconds) {
+  if (rawSeconds == null) return null;
+  const value = Number(rawSeconds);
+  if (!Number.isFinite(value) || value < 0) return null;
+
+  const totalSeconds = value >= 60 ? Math.round(value) : value;
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  const secondsLabel = value >= 60 ? `${seconds}s` : `${value.toFixed(2)}s`;
+
+  if (days > 0) return `${days}d ${hours}h ${minutes}m ${secondsLabel}`;
+  if (hours > 0) return `${hours}h ${minutes}m ${secondsLabel}`;
+  if (minutes > 0) return `${minutes}m ${secondsLabel}`;
+  return `${value.toFixed(2)}s`;
+}
+
+const ESTIMATE_TITLES = {
+  duration: "Estimated from the latest finished run of this workflow at the same duration. Not a measured time.",
+  workflow: "Estimated from the latest finished run of this workflow. Not a measured time.",
+};
+
 export const QueueItemRow = memo(
   function QueueItemRow({
     item,
@@ -92,26 +115,15 @@ export const QueueItemRow = memo(
     }, [fetchQueueItems, filters, workflow, workflowFilterMode, selecting]);
 
 const executionTimeLabel = useMemo(() => {
-  const t = item?.[3]?.execution_time;
-  if (t == null) return null;
-
-  const rawSeconds = Number(t);
-  if (!Number.isFinite(rawSeconds) || rawSeconds < 0) return null;
-
-  const totalSeconds = rawSeconds >= 60 ? Math.round(rawSeconds) : rawSeconds;
-
-  const days = Math.floor(totalSeconds / 86400);
-  const hours = Math.floor((totalSeconds % 86400) / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-
-  const secondsLabel = rawSeconds >= 60 ? `${seconds}s` : `${seconds.toFixed(2)}s`;
-
-  if (days > 0) return ` ${days}d ${hours}h ${minutes}m ${secondsLabel}`;
-  if (hours > 0) return ` ${hours}h ${minutes}m ${secondsLabel}`;
-  if (minutes > 0) return ` ${minutes}m ${secondsLabel}`;
-  return ` ${rawSeconds.toFixed(2)}s`;
+  const formatted = formatQueueSeconds(item?.[3]?.execution_time);
+  return formatted ? ` ${formatted}` : null;
 }, [item?.[3]?.execution_time]);
+
+const estimateLabel = useMemo(() => {
+  const formatted = formatQueueSeconds(item?.[3]?.estimated_time);
+  return formatted ? `est. ${formatted}` : null;
+}, [item?.[3]?.estimated_time]);
+const estimateTitle = ESTIMATE_TITLES[item?.[3]?.estimate_match] ?? ESTIMATE_TITLES.workflow;
 
     const showCover =
       route === "completed" &&
@@ -192,6 +204,16 @@ const executionTimeLabel = useMemo(() => {
               {executionTimeLabel ? (
                 <div className="execution-time" title="Execution time">
                   {executionTimeLabel}
+                </div>
+              ) : null}
+            </td>
+          }
+
+          {(route === "queue" || route === "archive") &&
+            <td className={'meta-info'}>
+              {mode !== "running" && estimateLabel ? (
+                <div className="execution-time is-estimate" title={estimateTitle}>
+                  {estimateLabel}
                 </div>
               ) : null}
             </td>
@@ -321,6 +343,9 @@ const executionTimeLabel = useMemo(() => {
       prev.info?.page === next.info?.page &&
       prev.info?.page_size === next.info?.page_size &&
       prev.item?.[0] === next.item?.[0] &&
+      prev.item?.[3]?.execution_time === next.item?.[3]?.execution_time &&
+      prev.item?.[3]?.estimated_time === next.item?.[3]?.estimated_time &&
+      prev.item?.[3]?.estimate_match === next.item?.[3]?.estimate_match &&
       queueWorkflow(prev.item).workflow_name === queueWorkflow(next.item).workflow_name &&
       queueWorkflow(prev.item).id === queueWorkflow(next.item).id
     );

@@ -19875,6 +19875,25 @@ function queueNodeIDs(item) {
   const ids = workflow.api_prompt ? Object.keys(workflow.api_prompt) : (workflow.nodes ?? []).map((node2) => node2.id).filter((id) => id != null);
   return Object.fromEntries(ids.map((id) => [id, id]));
 }
+function formatQueueSeconds(rawSeconds) {
+  if (rawSeconds == null) return null;
+  const value = Number(rawSeconds);
+  if (!Number.isFinite(value) || value < 0) return null;
+  const totalSeconds = value >= 60 ? Math.round(value) : value;
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor(totalSeconds % 86400 / 3600);
+  const minutes = Math.floor(totalSeconds % 3600 / 60);
+  const seconds = totalSeconds % 60;
+  const secondsLabel = value >= 60 ? `${seconds}s` : `${value.toFixed(2)}s`;
+  if (days > 0) return `${days}d ${hours}h ${minutes}m ${secondsLabel}`;
+  if (hours > 0) return `${hours}h ${minutes}m ${secondsLabel}`;
+  if (minutes > 0) return `${minutes}m ${secondsLabel}`;
+  return `${value.toFixed(2)}s`;
+}
+const ESTIMATE_TITLES = {
+  duration: "Estimated from the latest finished run of this workflow at the same duration. Not a measured time.",
+  workflow: "Estimated from the latest finished run of this workflow. Not a measured time."
+};
 const QueueItemRow = reactExports.memo(
   function QueueItemRow2({
     item,
@@ -19940,21 +19959,14 @@ const QueueItemRow = reactExports.memo(
       });
     }, [fetchQueueItems, filters, workflow, workflowFilterMode, selecting]);
     const executionTimeLabel = reactExports.useMemo(() => {
-      const t = item?.[3]?.execution_time;
-      if (t == null) return null;
-      const rawSeconds = Number(t);
-      if (!Number.isFinite(rawSeconds) || rawSeconds < 0) return null;
-      const totalSeconds = rawSeconds >= 60 ? Math.round(rawSeconds) : rawSeconds;
-      const days = Math.floor(totalSeconds / 86400);
-      const hours = Math.floor(totalSeconds % 86400 / 3600);
-      const minutes = Math.floor(totalSeconds % 3600 / 60);
-      const seconds = totalSeconds % 60;
-      const secondsLabel = rawSeconds >= 60 ? `${seconds}s` : `${seconds.toFixed(2)}s`;
-      if (days > 0) return ` ${days}d ${hours}h ${minutes}m ${secondsLabel}`;
-      if (hours > 0) return ` ${hours}h ${minutes}m ${secondsLabel}`;
-      if (minutes > 0) return ` ${minutes}m ${secondsLabel}`;
-      return ` ${rawSeconds.toFixed(2)}s`;
+      const formatted = formatQueueSeconds(item?.[3]?.execution_time);
+      return formatted ? ` ${formatted}` : null;
     }, [item?.[3]?.execution_time]);
+    const estimateLabel = reactExports.useMemo(() => {
+      const formatted = formatQueueSeconds(item?.[3]?.estimated_time);
+      return formatted ? `est. ${formatted}` : null;
+    }, [item?.[3]?.estimated_time]);
+    const estimateTitle = ESTIMATE_TITLES[item?.[3]?.estimate_match] ?? ESTIMATE_TITLES.workflow;
     const showCover = route === "completed" && thumbMode === "cover" && (galleryOptions.ShowImages || galleryOptions.ShowVideos);
     const showGrid = item?.[3]?.total_files > 0 && route === "completed" && thumbMode === "grid" && (galleryOptions.ShowImages || galleryOptions.ShowVideos);
     const rowIndex = index === void 0 || !info ? "" : index + 1 + info.page * info.page_size;
@@ -20009,6 +20021,7 @@ const QueueItemRow = reactExports.memo(
               )
             ] }) }),
             route === "completed" && /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "meta-info", children: executionTimeLabel ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "execution-time", title: "Execution time", children: executionTimeLabel }) : null }),
+            (route === "queue" || route === "archive") && /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "meta-info", children: mode !== "running" && estimateLabel ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "execution-time is-estimate", title: estimateTitle, children: estimateLabel }) : null }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-3 py-1 text-right actions", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { justifyContent: "flex-end" }, className: "buttons", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
@@ -20115,7 +20128,7 @@ const QueueItemRow = reactExports.memo(
     const prevId = prev2.item?.[3]?.db_id;
     const nextId = next2.item?.[3]?.db_id;
     if (prevId !== nextId) return false;
-    return prev2.loader === next2.loader && prev2.index === next2.index && prev2.mode === next2.mode && prev2.route === next2.route && prev2.thumbMode === next2.thumbMode && prev2.galleryOptions === next2.galleryOptions && prev2.filters === next2.filters && prev2.workflowFilterMode === next2.workflowFilterMode && prev2.selecting === next2.selecting && prev2.selected === next2.selected && prev2.reorderBusy === next2.reorderBusy && prev2.dragging === next2.dragging && prev2.reorderAnchor === next2.reorderAnchor && prev2.info?.page === next2.info?.page && prev2.info?.page_size === next2.info?.page_size && prev2.item?.[0] === next2.item?.[0] && queueWorkflow(prev2.item).workflow_name === queueWorkflow(next2.item).workflow_name && queueWorkflow(prev2.item).id === queueWorkflow(next2.item).id;
+    return prev2.loader === next2.loader && prev2.index === next2.index && prev2.mode === next2.mode && prev2.route === next2.route && prev2.thumbMode === next2.thumbMode && prev2.galleryOptions === next2.galleryOptions && prev2.filters === next2.filters && prev2.workflowFilterMode === next2.workflowFilterMode && prev2.selecting === next2.selecting && prev2.selected === next2.selected && prev2.reorderBusy === next2.reorderBusy && prev2.dragging === next2.dragging && prev2.reorderAnchor === next2.reorderAnchor && prev2.info?.page === next2.info?.page && prev2.info?.page_size === next2.info?.page_size && prev2.item?.[0] === next2.item?.[0] && prev2.item?.[3]?.execution_time === next2.item?.[3]?.execution_time && prev2.item?.[3]?.estimated_time === next2.item?.[3]?.estimated_time && prev2.item?.[3]?.estimate_match === next2.item?.[3]?.estimate_match && queueWorkflow(prev2.item).workflow_name === queueWorkflow(next2.item).workflow_name && queueWorkflow(prev2.item).id === queueWorkflow(next2.item).id;
   }
 );
 const useOptionsStore = create((set) => ({
@@ -20683,6 +20696,7 @@ const Queue = reactExports.memo(function Queue2({ data, isLoading, error, progre
               route === "completed" && thumbMode === "cover" && (galleryOptions.ShowImages || galleryOptions.ShowVideos) && /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "px-3 py-2 cover", children: "Thumbnail" }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "px-3 py-2 text-left workflow-column", children: "Workflow" }),
               route === "completed" && /* @__PURE__ */ jsxRuntimeExports.jsx("th", {}),
+              (route === "queue" || route === "archive") && /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "px-3 py-2 text-right estimate-column", children: "Estimate" }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "px-3 py-2 text-left", children: selecting ? /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "selection-heading", "data-selection-ignore": true, children: [
                 "Actions",
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -30352,7 +30366,8 @@ function SplashScreen({ onClick }) {
         /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Show how far the current job has got, including the stage that is running." }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Colour a job when it has been moved ahead of the order it was queued." }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Give every job from the same workflow the same colour." }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Drag across several jobs, then drag a handle to move that group together." })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Drag across several jobs, then drag a handle to move that group together." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: "Show an estimated render time on a queued or archived job, taken from the latest finished run of the same workflow and duration. The first run stays blank." })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),

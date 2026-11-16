@@ -483,6 +483,10 @@ header.header {
         white-space: nowrap;
         width: 100%;
         text-align: right;
+
+        &.is-estimate {
+          font-style: italic;
+        }
       }
     }
 

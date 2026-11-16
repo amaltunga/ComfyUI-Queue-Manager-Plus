@@ -126,6 +126,9 @@ export const Queue = memo(function Queue({ data, isLoading, error, progress }) {
                 {route === "completed" &&
                   <th></th>
                 }
+                {(route === "queue" || route === "archive") &&
+                  <th className="px-3 py-2 text-right estimate-column">Estimate</th>
+                }
                 <th className="px-3 py-2 text-left">
                   {selecting ? <label className="selection-heading" data-selection-ignore>
                     Actions

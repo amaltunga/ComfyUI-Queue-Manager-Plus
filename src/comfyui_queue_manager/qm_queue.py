@@ -16,6 +16,7 @@ from .nodes import resolve_workflow_name
 from .job_fields import apply_job_fields, read_job_fields
 from .promotion import promotion_color, workflow_block_color
 from .queue_metadata import prepare_queue_item, queue_metadata, rename_queue_item
+from .render_estimate import attach_render_estimates
 
 
 class QM_Queue:
@@ -94,7 +95,7 @@ class QM_Queue:
             last_page = 0
             order_string = "ORDER BY number, queue.id"
             join_string = ""
-            select_string = "SELECT queue.id as id, prompt, number"
+            select_string = "SELECT queue.id as id, prompt, number, workflow_id"
 
             match route:
                 case "queue":
@@ -153,10 +154,13 @@ class QM_Queue:
                 )
 
                 # array of prompts
+                estimate_jobs = []
                 for row in rows:
                     item = json.loads(row["prompt"])
                     # Add db_id to the item
                     item[3]["db_id"] = row["id"]
+                    if route in ("queue", "archive"):
+                        estimate_jobs.append((row["workflow_id"], item))
 
                     if route == "queue":
                         item[0] = row["number"]  # set the number to the one from the database
@@ -191,6 +195,9 @@ class QM_Queue:
                             item[3]["execution_time"] = None
 
                     pending.append(tuple(item))
+
+                if estimate_jobs:
+                    attach_render_estimates(estimate_jobs)
 
             # If called without parameters, return all three values
 

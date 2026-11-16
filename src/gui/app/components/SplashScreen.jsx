@@ -19,6 +19,7 @@ export function SplashScreen({onClick}) {
           <li>Colour a job when it has been moved ahead of the order it was queued.</li>
           <li>Give every job from the same workflow the same colour.</li>
           <li>Drag across several jobs, then drag a handle to move that group together.</li>
+          <li>Show an estimated render time on a queued or archived job, taken from the latest finished run of the same workflow and duration. The first run stays blank.</li>
         </ul>
         <p><br/>
           <i>For more details check the <a href={"https://github.com/amaltunga/ComfyUI-Queue-Manager-Plus#plus-manual"} target={"_blank"}>Plus manual</a>.</i><br/>

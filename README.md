@@ -51,6 +51,14 @@ Jobs from the same workflow share one colour on the workflow name. **Red bike** 
 
 Drag across **Blue kettle** and **Rain street** so both are selected. Drag the handle on either selected row and both jobs move together. Dropping that pair above **Red bike** promotes both, and their promotion dots update from the new order.
 
+### Estimated render time
+
+A pending or archived job can show an estimate from an earlier finished run. The label starts with **est.** so it is not the measured time on the Completed tab. The first run of a workflow stays blank.
+
+**Red bike** is Studio still at 4 seconds. After one finished Studio still at 4 seconds, the next **Red bike** shows that time, including when only the prompt changed. A later 4 second finish replaces the estimate. **Blue kettle** is Studio still at 6 seconds, so it does not use the 4 second run. With no finished 6 second run, that row stays blank.
+
+**Rain street** has no duration. It uses the latest finished Street scene run. **Garden path** stays blank until a Street scene job at 5 seconds has finished.
+
 The original manual follows.
 
 # ComfyUI Queue Manager
